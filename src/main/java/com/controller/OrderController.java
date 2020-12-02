@@ -1,8 +1,8 @@
 package com.controller;
 
-import com.entidade.Order;
-import com.entidade.Return;
-import com.entidade.User;
+import com.entity.Order;
+import com.entity.Return;
+import com.entity.User;
 import com.exception.PI4Exception;
 import com.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;

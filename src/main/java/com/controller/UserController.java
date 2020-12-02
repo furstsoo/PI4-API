@@ -1,8 +1,8 @@
 package com.controller;
 
-import com.entidade.User;
+import com.entity.User;
 import com.repository.UserRepository;
-import com.entidade.Return;
+import com.entity.Return;
 import com.exception.PI4Exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

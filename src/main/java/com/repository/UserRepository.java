@@ -1,7 +1,7 @@
 package com.repository;
 
 import com.conexao.ConnectionPI4;
-import com.entidade.User;
+import com.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import java.sql.*;
 
@@ -40,12 +40,12 @@ public class UserRepository {
 
     preparedStatement = con.prepareStatement(UPDATE_USER);
 
-    preparedStatement.setString(1,  user.getName());
-    preparedStatement.setString(2,  user.getEmail());
-    preparedStatement.setString(3,  user.getPassword());
-    preparedStatement.setString(4,  user.getApartment());
-    preparedStatement.setString(5,  user.getBlock());
-    preparedStatement.setString(6,  user.getTypeUser());
+    preparedStatement.setString(1, user.getName());
+    preparedStatement.setString(2, user.getEmail());
+    preparedStatement.setString(3, user.getPassword());
+    preparedStatement.setString(4, user.getApartment());
+    preparedStatement.setString(5, user.getBlock());
+    preparedStatement.setString(6, user.getTypeUser());
     preparedStatement.setInt(7, user.getId());
     nRowsUpdated += preparedStatement.executeUpdate();
 

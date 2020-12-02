@@ -1,8 +1,7 @@
 package com.repository;
 
 import com.conexao.ConnectionPI4;
-import com.entidade.Order;
-import com.entidade.User;
+import com.entity.Order;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
