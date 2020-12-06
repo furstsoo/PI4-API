@@ -89,14 +89,12 @@ public class UserRepository {
 
   public boolean deleteUser(int idUser) throws SQLException {
     con = connectionPI4.connection();
-    int nRowsUpdated = 0;
 
     log.info(">>> Deleting some data in table. <<<");
     preparedStatement = con.prepareStatement(DELETE_USER);
     preparedStatement.setInt(1, idUser);
 
-    nRowsUpdated += preparedStatement.executeUpdate();
-
-    return nRowsUpdated != 0;
+    preparedStatement.executeUpdate();
+    return true;
   }
 }

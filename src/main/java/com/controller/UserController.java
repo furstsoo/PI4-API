@@ -4,13 +4,12 @@ import com.entity.User;
 import com.repository.UserRepository;
 import com.entity.Return;
 import com.exception.PI4Exception;
+import com.util.RetornoUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
@@ -22,46 +21,46 @@ public class UserController {
   UserRepository dao = new UserRepository();
   Return ret = new Return();
 
-  @GetMapping("/insert-user")
-  public ResponseEntity<Object> insertUser(@RequestBody User us) throws SQLException {
+  @PostMapping(value = "/insert-user", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Return> insertUser(@RequestBody User us) throws SQLException {
     if (us != null) {
       if (dao.insertUser(us)) {
         log.info(">>> User has been successfully registered. <<<");
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Return returns = RetornoUtil.result(HttpStatus.CREATED);
+        return ResponseEntity.accepted().body(returns);
       } else {
-        ret.setAReturn("Error registering user.");
-        ret.setId(HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(ret, HttpStatus.BAD_REQUEST);
+        Return returns = RetornoUtil.result(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.accepted().body(returns);
       }
     } else {
       throw new PI4Exception("the user is null...");
     }
   }
 
-  @GetMapping("/login")
-  public ResponseEntity<Object> login(@RequestParam(value = "email") String email,
+  @GetMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Return> login(@RequestParam(value = "email") String email,
                                       @RequestParam(value = "password") String password) throws SQLException {
     user = dao.login(email, password);
-
     if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
       log.info(">>> Login successfully <<<");
-      return new ResponseEntity<>(user.getId(), HttpStatus.OK);
-
+      Return returns = RetornoUtil.result(HttpStatus.ACCEPTED);
+      return ResponseEntity.accepted().body(returns);
     } else {
-      ret.setAReturn("Username or password is wrong, check.");
-      return new ResponseEntity<>(ret, HttpStatus.OK);
+      Return returns = RetornoUtil.result(HttpStatus.UNAUTHORIZED);
+      return ResponseEntity.accepted().body(returns);
     }
-
   }
 
-  @GetMapping("/update-user")
-  public ResponseEntity<Object> updateUser(@RequestBody User us) throws SQLException {
+  @PostMapping(value = "/update-user", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Return> updateUser(@RequestBody User us) throws SQLException {
     if (us != null) {
       if (dao.updateUser(us)) {
         log.info("User has been successfully edited.");
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        Return returns = RetornoUtil.result(HttpStatus.OK);
+        return ResponseEntity.accepted().body(returns);
       } else {
-        return new ResponseEntity<>(user, HttpStatus.BAD_REQUEST);
+        Return returns = RetornoUtil.result(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.accepted().body(returns);
       }
     } else {
       throw new PI4Exception("the user is null...");
@@ -80,10 +79,11 @@ public class UserController {
     if (id != 0) {
       if (dao.deleteUser(id)) {
         log.info("User successfully deleted.");
-        ret.setAReturn("User successfully deleted.");
-        return new ResponseEntity<>(ret, HttpStatus.OK);
+        Return returns = RetornoUtil.result(HttpStatus.OK);
+        return ResponseEntity.accepted().body(returns);
       } else {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Return returns = RetornoUtil.result(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.accepted().body(returns);
       }
     } else {
       throw new PI4Exception("the user is null...");
