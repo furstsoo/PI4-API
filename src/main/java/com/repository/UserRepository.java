@@ -64,6 +64,10 @@ public class UserRepository {
       user.setEmail(rs.getString("email"));
       user.setPassword(rs.getString("password"));
       user.setId(rs.getInt("id"));
+      user.setTypeUser(rs.getString("typeUser"));
+      user.setName(rs.getString("name"));
+      user.setApartment(rs.getString("apartment"));
+      user.setBlock(rs.getString("block"));
     }
     return user;
   }

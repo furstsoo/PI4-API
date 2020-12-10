@@ -2,7 +2,6 @@ package com.controller;
 
 import com.entity.Order;
 import com.entity.Return;
-import com.entity.User;
 import com.exception.PI4Exception;
 import com.repository.OrderRepository;
 import com.util.RetornoUtil;
@@ -19,7 +18,6 @@ import java.util.List;
 @Slf4j
 @RestController
 public class OrderController {
-  User user = new User();
   OrderRepository dao = new OrderRepository();
   Order order = new Order();
 
@@ -35,7 +33,7 @@ public class OrderController {
         return ResponseEntity.accepted().body(returns);
       }
     } else {
-      throw new PI4Exception("the user is null...");
+      throw new PI4Exception("the order is null...");
     }
   }
 
@@ -52,21 +50,20 @@ public class OrderController {
         return ResponseEntity.accepted().body(returns);
       }
     } else {
-      throw new PI4Exception("the user is null...");
+      throw new PI4Exception("the order is null...");
     }
   }
 
   /* busca encomenda por usuario - no app visao condomino -> manda o id do usuario devolve todas as encomendas -> Visão do condomino */
   @GetMapping(value = "/view-order", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<Order>> viewOrder(@RequestParam(value = "id", required = false) Integer id,
-                                               @RequestParam(value = "name", required = false) String name,
+  public ResponseEntity<List<Order>> viewOrder(@RequestParam(value = "name", required = false) String name,
                                                @RequestParam(value = "block", required = false) String block,
                                                @RequestParam(value = "apartment", required = false) String apartment) throws SQLException {
 
     List<Order> find = new ArrayList<>();
     log.info(">>> View order <<<");
-    if (id != null) {
-      find = dao.findOrdersCondomino(id);
+    if (name == null) {
+      find = dao.findOrdersCondomino(block, apartment);
     } else {
       find = dao.findOrdersOperador(name, block, apartment);
     }

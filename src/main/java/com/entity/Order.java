@@ -12,4 +12,6 @@ public class Order {
   private String dt_delivery;
   private String dt_pickup;
   private int cd_user;
+  private String remetente;
+  private String descricao;
 }

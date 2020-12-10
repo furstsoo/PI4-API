@@ -15,7 +15,7 @@ public class Sql {
       "WHERE               " +
       "  id = ?;           ";
 
-  public static final String LOGIN = "SELECT id, email, password FROM projectiv.dbo.app_user WHERE email = ? and password = ? ";
+  public static final String LOGIN = "SELECT * FROM projectiv.dbo.app_user WHERE lower(email) = lower(?) and password = ? ";
   public static final String FIND_USER = "SELECT * FROM projectiv.dbo.app_user WHERE id = ?";
   public static final String DELETE_USER = "DELETE FROM projectiv.dbo.app_user WHERE id = ?";
 
@@ -28,6 +28,20 @@ public class Sql {
       " dt_pickup = ? " +
       "WHERE cd_user = ? and id_order = ?";
 
-  public static final String FIND_ORDER = "SELECT * FROM projectiv.dbo.app_order WHERE cd_user = ?";
-  public static final String FIND_ORDER_OPERADOR = "select * from projectiv.dbo.app_order where addressee = ? and apartment = ? and block = ? ";
+  public static final String FIND_ORDER = "SELECT * FROM projectiv.dbo.app_order WHERE block = ? and apartment = ?";
+  public static final String FIND_ORDER_OPERADOR = "select * from projectiv.dbo.app_order where lower(addressee) = lower(?) and apartment = ? and block = ? ";
+
+  /* REGISTER */
+  public static final String FIND_REGISTER = "SELECT * FROM projectiv.dbo.app_register WHERE register_day = ?";
+
+  public static final String ADD_REGISTER = "INSERT INTO projectiv.dbo.app_register(register_day, cd_user) VALUES(?, ?)";
+
+
+  /*Communication*/
+
+  public static final String ADD_AVISO = "INSERT INTO projectiv.dbo.app_communications (title, message, cd_user) VALUES(?, ?, ?)";
+  public static final String SELECT_AVISOS = "SELECT * FROM projectiv.dbo.app_communications";
+
+
+
 }

@@ -2,7 +2,6 @@ package com.repository;
 
 import com.conexao.ConnectionPI4;
 import com.entity.Order;
-import com.entity.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
@@ -56,12 +55,13 @@ public class OrderRepository {
   }
 
   /*FindOrders para visualização do condomino*/
-  public List<Order> findOrdersCondomino(int id) throws SQLException {
+  public List<Order> findOrdersCondomino(String block, String apartment) throws SQLException {
     con = connectionPI4.connection();
     List<Order> orders = new ArrayList<>();
     log.info(">>> Searching for user. <<<");
     preparedStatement = con.prepareStatement(FIND_ORDER);
-    preparedStatement.setInt(1, id);
+    preparedStatement.setString(1, block);
+    preparedStatement.setString(2, apartment);
     ResultSet rs = preparedStatement.executeQuery();
 
     while (rs != null && rs.next()) {
@@ -74,6 +74,8 @@ public class OrderRepository {
       orderView.setDt_delivery(rs.getString("dt_delivery"));
       orderView.setDt_pickup(rs.getString("dt_pickup"));
       orderView.setCd_user(rs.getInt("cd_user"));
+      orderView.setRemetente(rs.getString("remetente"));
+      orderView.setDescricao(rs.getString("descricao"));
       orders.add(orderView);
     }
     return orders;
@@ -100,6 +102,8 @@ public class OrderRepository {
       order1.setDt_delivery(rs.getString("dt_delivery"));
       order1.setDt_pickup(rs.getString("dt_pickup"));
       order1.setCd_user(rs.getInt("cd_user"));
+      order1.setRemetente(rs.getString("remetente"));
+      order1.setDescricao(rs.getString("descricao"));
       orders.add(order1);
     }
     return orders;

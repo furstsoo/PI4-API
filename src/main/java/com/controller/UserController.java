@@ -38,16 +38,14 @@ public class UserController {
   }
 
   @GetMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<Return> login(@RequestParam(value = "email") String email,
+  public ResponseEntity<User> login(@RequestParam(value = "email") String email,
                                       @RequestParam(value = "password") String password) throws SQLException {
     user = dao.login(email, password);
-    if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
+    if (email.toLowerCase().equals(user.getEmail().toLowerCase()) && password.equals(user.getPassword())) {
       log.info(">>> Login successfully <<<");
-      Return returns = RetornoUtil.result(HttpStatus.ACCEPTED);
-      return ResponseEntity.accepted().body(returns);
+      return ResponseEntity.accepted().body(user);
     } else {
-      Return returns = RetornoUtil.result(HttpStatus.UNAUTHORIZED);
-      return ResponseEntity.accepted().body(returns);
+      return ResponseEntity.accepted().body(null);
     }
   }
 
