@@ -32,6 +32,8 @@ public class OrderRepository {
     preparedStatement.setString(4, order.getBlock());
     preparedStatement.setString(5, order.getDt_delivery());
     preparedStatement.setInt(6, order.getCd_user());
+    preparedStatement.setString(7, order.getRemetente());
+    preparedStatement.setString(8, order.getDescricao());
     log.info("order >>> {} ",order.toString());
     nRowsInserted += preparedStatement.executeUpdate();
 

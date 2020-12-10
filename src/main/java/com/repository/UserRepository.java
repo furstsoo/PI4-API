@@ -15,11 +15,11 @@ public class UserRepository {
   PreparedStatement preparedStatement;
   User user = new User();
 
-  public boolean insertUser(User user) throws SQLException {
+  public User insertUser(User user) throws SQLException {
     con = connectionPI4.connection();
     log.info(">>> Inserting some data into table. <<<");
     int nRowsInserted = 0;
-    preparedStatement = con.prepareStatement(INSERT_USER);
+    preparedStatement = con.prepareStatement(INSERT_USER, Statement.RETURN_GENERATED_KEYS);
 
     preparedStatement.setString(1, user.getName());
     preparedStatement.setString(2, user.getEmail());
@@ -28,9 +28,13 @@ public class UserRepository {
     preparedStatement.setString(5, user.getBlock());
     preparedStatement.setString(6, user.getTypeUser());
     log.info("User {}", user.toString());
-    nRowsInserted += preparedStatement.executeUpdate();
+    preparedStatement.executeUpdate();
+    ResultSet rs = preparedStatement.getGeneratedKeys();
 
-    return nRowsInserted != 0;
+    if(rs.next()){
+      user.setId(rs.getInt(1));
+    }
+    return user;
   }
 
   public boolean updateUser(User user) throws SQLException {

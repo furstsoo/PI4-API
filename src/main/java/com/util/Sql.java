@@ -20,7 +20,7 @@ public class Sql {
   public static final String DELETE_USER = "DELETE FROM projectiv.dbo.app_user WHERE id = ?";
 
   /* ORDER */
-  public static final String INSERT_ORDER = "INSERT INTO projectiv.dbo.app_order (addressee, status, apartment, block, dt_delivery, cd_user) VALUES (?, ?, ?, ?, ?, ?)";
+  public static final String INSERT_ORDER = "INSERT INTO projectiv.dbo.app_order (addressee, status, apartment, block, dt_delivery, cd_user, remetente, descricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
   public static final String UPDATE_ORDER =
     "UPDATE projectiv.dbo.app_order SET" +
